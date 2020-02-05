@@ -1,9 +1,13 @@
+/*jshint esversion: 6 */
 //create dynamically and append a canvas
+import { Game } from "./Game.js";
+import { Block } from "./Block.js";
+
 let canvas = document.createElement("canvas");
 
 canvas.id = "myCanvas";
 canvas.width = "400";
-canvas.height = "616";
+canvas.height = "800";
 
 let ctx = canvas.getContext("2d");
 
@@ -32,9 +36,9 @@ const game = new Game();
 
 //Create and initialise game board
 const col = 12;
-const row = 28;
+const row = 22;
 
-let board = new Array();
+let board = [];
 
 board = game.resetGameBoard(board, row, col);
 
@@ -82,6 +86,8 @@ let z = new Block("z", 0, "red", [
 ]);
 
 const blockList = new Array(i, j, l, o, s, t, z);
+let comingBlock = null;
+let y = 0;
 
 let state = {
   /* x: (width / 2),
@@ -93,17 +99,27 @@ function update(progress) {
     if (state.x > width) {
         state.x -= width;
     }*/
+    comingBlock.y = y;
+    if(game.occupied(board, comingBlock.shape[0])){
+    console(board[x][comingBlock.y])  ;
+    }
+    
 }
-let comingBlock = null;
-let y = 0;
+
 
 function draw() {
-    
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  game.drawPieceOnBoard(canvas, comingBlock, 0, y, canvas.height/row, canvas.width/col);
+  game.drawPiece(
+    canvas,
+    comingBlock,
+    0,
+    y *canvas.height / row,
+    canvas.width / col,
+    canvas.height / row
+  );
 
-  if (y < canvas.height - (canvas.height/row *4)) {
-    y += (canvas.height/row);
+  if (y *canvas.height / row < canvas.height) {
+    y++;
   } else {
     y = 0;
     comingBlock.isActive = false;
@@ -127,6 +143,8 @@ function loop(timestamp) {
 
       update(progress);
       draw();
+
+      console.log(comingBlock.y);
 
       lastRender = timestamp;
       time = 0;

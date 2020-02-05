@@ -1,55 +1,51 @@
-class Block {
-  name;
-  color;
-  isActive;
-  x;
-  y;
-  shape = [[], [], [], []];
+/*jshint esversion: 6 */
+export class Block {
   constructor(name, isActive, color, arr) {
-    this.name = name;
-    this.isActive = isActive;
-    this.color = color;
+    this._name = name;
+    this._isActive = isActive;
+    this._color = color;
 
-    this.shape[0] = arr;
-    this.shape[1] = this.rotateCW(arr);
-    this.shape[2] = this.rotateCW(this.shape[1]);
-    this.shape[3] = this.rotateCW(this.shape[2]);
+    this._shape = [];
+    this._shape[0] = arr;
+    this._shape[1] = this.rotateCW(arr);
+    this._shape[2] = this.rotateCW(this.shape[1]);
+    this._shape[3] = this.rotateCW(this.shape[2]);
   }
 
   get name() {
-    return this.name;
+    return this._name;
   }
 
   get shape() {
-    return this.shape;
+    return this._shape;
   }
 
   get isActive() {
-    return this.isActive;
+    return this._isActive;
   }
 
   get color() {
-    return this.color;
+    return this._color;
   }
 
   get x() {
-    return this.x;
+    return this._x;
   }
 
   get y() {
-    return this.y;
+    return this._y;
   }
 
   set x(x) {
-    this.x = x;
+    this._x = x;
   }
 
   set y(y) {
-    this.y = y;
+    this._y = y;
   }
 
   set isActive(isActive) {
-    this.isActive = isActive;
+    this._isActive = isActive;
   }
 
   //rotate 2d array by 90° clockwise

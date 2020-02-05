@@ -1,4 +1,5 @@
-class Game {
+/*jshint esversion: 6 */
+export class Game {
   resetGameBoard(arr, row, col) {
     for (let x = 0; x < row; x++) {
       arr[x] = new Array(1);
@@ -14,15 +15,18 @@ class Game {
     for (let x = 0; x < block.length; x++) {
       for (let y = 0; y < block[x].length; y++) {
         if (block[x][y] == 1) {
-          if ((board[block.x - 1][y] = !0)) {
+          if ((board[x][y + 1] != 0)) {
             return true;
           }
           //in case we get at the bottom of the board
-          else if (board[block.x - 1] == -1) {
+          //!A refaire
+          else if (board[x][y + 1] == -1) {
             return true;
           } else {
             return false;
           }
+        } else {
+          return false;
         }
       }
     }
@@ -37,7 +41,7 @@ class Game {
     return blockList[rand];
   }
 
-  drawPieceOnBoard(canvas, block, abs, ord, height, width) {
+  drawPiece(canvas, block, abs, ord, height, width) {
     if (canvas.getContext) {
       let ctx = canvas.getContext("2d");
 
@@ -46,15 +50,13 @@ class Game {
       for (let y = 0; y < block.shape.length; y++) {
         for (let z = 0; z < block.shape.length; z++) {
           if (block.shape[0][y][z] == 1) {
-			ctx.fillStyle = block.color;
-			console.log(height);
-			
+            ctx.fillStyle = block.color;
             ctx.fillRect(abs, ord, height, width);
           }
-          abs += 32;
+          abs += height;
         }
         abs = initialAbs;
-        ord += 32;
+        ord += width;
       }
     }
   }
