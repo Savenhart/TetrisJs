@@ -1,3 +1,6 @@
+//TODO Need to get block position and add it to board when it touch either the end of the board or an already placed block
+//TODO Need to add movement of the block with keyboard, Add point, Game over, line clearing, show next block coming
+
 /*jshint esversion: 6 */
 //create dynamically and append a canvas
 import { Game } from "./Game.js";
@@ -87,23 +90,26 @@ let z = new Block("z", 0, "red", [
 
 const blockList = new Array(i, j, l, o, s, t, z);
 let comingBlock = null;
-let y = 0;
+let bX = 0;
+let move = true;
 
 let state = {
   /* x: (width / 2),
      y: (height / 2),*/
 };
 
-function update(progress) {
+function update(progress, boardX) {
   /*state.x += progress
     if (state.x > width) {
         state.x -= width;
     }*/
-    comingBlock.y = y;
-    if(game.occupied(board, comingBlock.shape[0])){
-    console(board[x][comingBlock.y])  ;
+   // console.log(boardX);
+    comingBlock.y = bX;
+    if(game.occupied(board, comingBlock.shape[0], boardX)){
+      //console.log(comingBlock);
+      move = false;
     }
-    
+   // console.log(move);
 }
 
 
@@ -113,15 +119,15 @@ function draw() {
     canvas,
     comingBlock,
     0,
-    y *canvas.height / row,
+    bX *canvas.height / row,
     canvas.width / col,
     canvas.height / row
   );
 
-  if (y *canvas.height / row < canvas.height) {
-    y++;
+  if (bX *canvas.height / row < canvas.height && move) {
+    bX++;
   } else {
-    y = 0;
+    bX = 0;
     comingBlock.isActive = false;
   }
 
@@ -141,10 +147,9 @@ function loop(timestamp) {
         comingBlock.isActive = true;
       }
 
-      update(progress);
+      update(progress, bX);
       draw();
-
-      console.log(comingBlock.y);
+      //console.log(comingBlock.y);
 
       lastRender = timestamp;
       time = 0;

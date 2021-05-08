@@ -11,25 +11,22 @@ export class Game {
   }
 
   //Verify if the cell under the block is already occupied or not
-  occupied(board, block) {
-    for (let x = 0; x < block.length; x++) {
-      for (let y = 0; y < block[x].length; y++) {
-        if (block[x][y] == 1) {
-          if ((board[x][y + 1] != 0)) {
-            return true;
+  occupied(board, block, boardX) {
+      for (let x = block.length-1; x > 0; x--) {
+        for (let y = 0; y < block[x].length; y++) {
+          if (block[x][y] == 1) {
+            if(boardX != 21){
+              if (board[boardX + 1][0] != 0) {
+              return true;
+              }
+            }
+            if (boardX + 1 == 22 || board[boardX + x + 1] == undefined) {
+              return true;
+            }
           }
-          //in case we get at the bottom of the board
-          //!A refaire
-          else if (board[x][y + 1] == -1) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
         }
       }
-    }
+    return false;
   }
 
   generateNextBlock(blockList) {
